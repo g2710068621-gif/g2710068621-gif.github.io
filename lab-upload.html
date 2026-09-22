@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>资料上传 · 计算机实验室综合管理系统</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+    /* 强制锁定左侧导航栏宽度，彻底消除视觉差异 */
+    aside {
+      width: 224px !important;
+      min-width: 224px !important;
+      max-width: 224px !important;
+      flex-shrink: 0 !important;
+      box-sizing: border-box !important;
+    }
+  </style>
+</head>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 antialiased">
+  <div class="min-h-screen flex flex-col">
+    <!-- 顶部栏 -->
+    <header class="h-14 bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-6 shrink-0 z-20">
+      <h1 class="text-base font-semibold text-slate-800 tracking-wide">
+        计算机实验室综合管理系统
+      </h1>
+      <div class="relative" id="user-menu">
+        <button
+          type="button"
+          id="user-menu-btn"
+          class="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-800 rounded-lg px-2 py-1.5 hover:bg-slate-50 transition-colors"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          <span class="w-7 h-7 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-xs font-medium">谢</span>
+          <span id="current-user" class="font-medium">谢静茹</span>
+          <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div
+          id="user-menu-panel"
+          class="hidden absolute right-0 mt-1.5 w-44 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 z-30"
+          role="menu"
+        >
+          <a href="#" class="flex items-center gap-2.5 px-3.5 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-800 transition-colors" role="menuitem">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            个人中心
+          </a>
+          <div class="my-1 border-t border-slate-100"></div>
+          <a href="#" class="flex items-center gap-2.5 px-3.5 py-2 text-sm text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors" role="menuitem">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            退出账号
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+      <!-- 左侧导航 -->
+      <aside class="w-56 bg-white border-r border-slate-200 shadow-sm flex flex-col shrink-0">
+        <nav class="p-3 space-y-1 text-sm">
+          <a href="lab-dashboard.html"
+             class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+            <svg class="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/>
+            </svg>
+            首页（工作台）
+          </a>
+
+          <div class="pt-2">
+            <p class="px-3 py-1.5 text-xs font-medium text-slate-400 uppercase tracking-wider">科研资源</p>
+            <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              资源列表
+            </a>
+            <a href="lab-upload.html"
+               class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-brand-50 text-brand-600 font-medium">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+              </svg>
+              资料上传
+            </a>
+          </div>
+
+          <div class="pt-2">
+            <p class="px-3 py-1.5 text-xs font-medium text-slate-400 uppercase tracking-wider">仪器设备</p>
+            <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+              </svg>
+              仪器台账
+            </a>
+            <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              借用申请
+            </a>
+            <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+              故障报修
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- 主内容区：与工作台一致，铺满侧栏右侧全部宽度 -->
+      <main class="flex-1 min-w-0 overflow-y-auto p-6">
+        <!-- 面包屑 -->
+        <nav class="text-sm text-slate-400 mb-4">
+          <span>科研资料管理</span>
+          <span class="mx-1.5">›</span>
+          <span class="text-slate-600">资料上传</span>
+        </nav>
+
+        <!-- 表单卡片：撑满主内容区 -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 w-full">
+          <div class="px-6 py-4 border-b border-slate-100">
+            <h2 class="text-base font-semibold text-slate-800">上传科研资料</h2>
+            <p class="text-sm text-slate-400 mt-0.5">请填写资料信息并上传文件，支持 PDF、Word 格式</p>
+          </div>
+
+          <form id="upload-form" class="p-6 md:p-8 space-y-6" onsubmit="event.preventDefault(); alert('提交成功（演示）');">
+            <!-- 资料名称 -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
+              <label for="title-input" class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
+                资料名称 <span class="text-red-400">*</span>
+              </label>
+              <div class="flex-1 min-w-0">
+                <input
+                  type="text"
+                  id="title-input"
+                  name="title"
+                  value=""
+                  placeholder="上传文件后自动识别或手动输入"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400
+                         focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-shadow"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- 文件类型 -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
+              <label for="filetype-select" class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
+                文件类型 <span class="text-red-400">*</span>
+              </label>
+              <div class="flex-1 min-w-0">
+                <select
+                  id="filetype-select"
+                  name="filetype"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-200 bg-white text-slate-800
+                         focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-shadow appearance-none
+                         bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%2394a3b8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22M6%208l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem] bg-[right_0.5rem_center] bg-no-repeat pr-9"
+                  required
+                >
+                  <option value="" selected disabled>请选择文件类型</option>
+                  <option value="学术论文">学术论文</option>
+                  <option value="研究报告">研究报告</option>
+                  <option value="实验数据">实验数据</option>
+                  <option value="技术文档">技术文档</option>
+                  <option value="其他">其他</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 研究方向标签 -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
+              <label for="tags-input" class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
+                研究方向标签
+              </label>
+              <div class="flex-1 min-w-0">
+                <input
+                  type="text"
+                  id="tags-input"
+                  name="tags"
+                  value=""
+                  placeholder="多个标签用英文逗号分隔"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400
+                         focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-shadow"
+                />
+                <p class="mt-1.5 text-xs text-slate-400">例如：深度学习,图像识别,CNN</p>
+              </div>
+            </div>
+
+            <!-- 所属分类：可输入或从列表选择，默认空 -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
+              <label for="category-input" class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
+                所属分类 <span class="text-red-400">*</span>
+              </label>
+              <div class="flex-1 min-w-0">
+                <input
+                  type="text"
+                  id="category-input"
+                  name="category"
+                  list="category-options"
+                  value=""
+                  placeholder="请输入或选择分类"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400
+                         focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-shadow"
+                  required
+                />
+                <datalist id="category-options">
+                  <option value="图像识别"></option>
+                  <option value="自然语言处理"></option>
+                  <option value="计算机视觉"></option>
+                  <option value="嵌入式系统"></option>
+                  <option value="计算机网络"></option>
+                  <option value="其他"></option>
+                </datalist>
+                <p class="mt-1.5 text-xs text-slate-400">可直接输入，或从下拉建议中选择</p>
+              </div>
+            </div>
+
+            <!-- 文件拖拽上传 -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
+              <label class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
+                上传文件 <span class="text-red-400">*</span>
+              </label>
+              <div class="flex-1 min-w-0">
+                <label
+                  id="dropzone"
+                  for="file-input"
+                  class="group flex flex-col items-center justify-center gap-3 w-full py-4 px-6
+                         rounded-xl border-2 border-dashed border-slate-200 bg-slate-50/60
+                         hover:border-brand-400 hover:bg-brand-50/40 cursor-pointer transition-colors"
+                >
+                  <div class="w-12 h-12 rounded-full bg-brand-50 text-brand-500 flex items-center justify-center
+                              group-hover:bg-brand-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-sm text-slate-600">
+                      <span class="text-brand-600 font-medium">点击上传</span>
+                      或拖拽文件至此处
+                    </p>
+                    <p class="text-xs text-slate-400 mt-1">支持 PDF、Word 格式，单文件不超过 50MB</p>
+                  </div>
+                  <p id="file-name" class="hidden text-xs text-brand-600 font-medium bg-brand-50 px-3 py-1 rounded-full"></p>
+                  <input id="file-input" type="file" name="file" accept=".pdf,.doc,.docx" class="hidden" />
+                </label>
+              </div>
+            </div>
+
+            <!-- 资料简介（选填） -->
+            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
+              <label for="desc-input" class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
+                资料简介<span class="text-slate-400 font-normal">（选填）</span>
+              </label>
+              <div class="flex-1 min-w-0">
+                <textarea
+                  id="desc-input"
+                  name="description"
+                  rows="4"
+                  placeholder="请简要介绍资料内容、研究背景或使用说明…"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400
+                         focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-shadow resize-y min-h-[6rem]"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex items-center justify-center gap-3 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                id="reset-btn"
+                class="px-6 py-2.5 text-sm font-medium rounded-lg border border-slate-200 text-slate-600
+                       bg-white hover:bg-slate-50 transition-colors shadow-sm"
+              >
+                重置
+              </button>
+              <button
+                type="button"
+                onclick="window.location.href='lab-dashboard.html'"
+                class="px-6 py-2.5 text-sm font-medium rounded-lg border border-slate-200 text-slate-600
+                       bg-white hover:bg-slate-50 transition-colors shadow-sm"
+              >
+                取消
+              </button>
+              <button
+                type="submit"
+                class="px-6 py-2.5 text-sm font-medium rounded-lg bg-brand-600 text-white
+                       hover:bg-brand-700 transition-colors shadow-sm shadow-brand-600/20"
+              >
+                提交
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // 用户下拉菜单
+      const btn = document.getElementById('user-menu-btn');
+      const panel = document.getElementById('user-menu-panel');
+      const menu = document.getElementById('user-menu');
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = panel.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target)) {
+          panel.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // 文件上传：自动识别资料名称（去掉扩展名），用户可再手动修改
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('file-input');
+      const fileName = document.getElementById('file-name');
+      const titleInput = document.getElementById('title-input');
+
+      function showFile(file) {
+        if (!file) return;
+        fileName.textContent = file.name;
+        fileName.classList.remove('hidden');
+
+        const baseName = file.name.replace(/\.[^.]+$/, '');
+        if (!titleInput.value.trim() || titleInput.dataset.autoFilled === 'true') {
+          titleInput.value = baseName;
+          titleInput.dataset.autoFilled = 'true';
+        }
+      }
+
+      titleInput.addEventListener('input', () => {
+        titleInput.dataset.autoFilled = 'false';
+      });
+
+      fileInput.addEventListener('change', () => showFile(fileInput.files[0]));
+
+      // 重置：清空全部字段与已选文件
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        document.getElementById('upload-form').reset();
+        fileInput.value = '';
+        fileName.textContent = '';
+        fileName.classList.add('hidden');
+        titleInput.dataset.autoFilled = 'false';
+        titleInput.value = '';
+      });
+
+      ['dragenter', 'dragover'].forEach((evt) => {
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('border-brand-500', 'bg-brand-50/60');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach((evt) => {
+        dropzone.addEventListener(evt, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('border-brand-500', 'bg-brand-50/60');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        const file = e.dataTransfer.files[0];
+        if (file) {
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          fileInput.files = dt.files;
+          showFile(file);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
