@@ -152,7 +152,7 @@
             <p class="text-sm text-slate-400 mt-0.5">请填写资料信息并上传文件，支持 PDF、Word 格式</p>
           </div>
 
-          <form id="upload-form" class="p-6 md:p-8 space-y-6" onsubmit="event.preventDefault(); alert('提交成功（演示）');">
+          <form id="upload-form" class="p-6 md:p-8 space-y-6">
             <!-- 资料名称 -->
             <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
               <label for="title-input" class="sm:w-32 shrink-0 text-sm font-medium text-slate-700 sm:pt-2.5">
@@ -404,5 +404,68 @@
       });
     })();
   </script>
+  <script>
+// 1. 初始化科研资料数据
+const STORAGE_KEY = "lab_materials";
+
+function getMaterials() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+}
+
+// 2. 获取上传表单
+const uploadForm = document.getElementById("upload-form");
+
+// 3. 监听表单提交
+uploadForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // 获取表单数据
+    const title = document.getElementById("title-input").value.trim();
+    const fileType = document.getElementById("filetype-select").value;
+
+    // 获取当前选择的文件
+    const fileInput = document.querySelector('input[type="file"]');
+    const file = fileInput ? fileInput.files[0] : null;
+
+    // 基础校验
+    if (!title) {
+        alert("请输入资料名称");
+        return;
+    }
+
+    if (!file) {
+        alert("请先选择需要上传的文件");
+        return;
+    }
+
+    // 创建一条新的资料记录
+    const newMaterial = {
+        id: Date.now(),
+        title: title,
+        fileType: fileType,
+        fileName: file.name,
+        status: "待审核",
+        uploader: "当前用户",
+        createTime: new Date().toLocaleString()
+    };
+
+    // 保存到浏览器本地
+    const materials = getMaterials();
+    materials.unshift(newMaterial);
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(materials)
+    );
+
+    alert("资料提交成功，已进入待审核状态");
+
+    // 清空表单
+    uploadForm.reset();
+
+});
+
+</script>
 </body>
 </html>
