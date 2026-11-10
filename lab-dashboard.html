@@ -177,7 +177,10 @@
             </div>
             <div>
               <p class="text-sm text-slate-500 mb-0.5">待审批</p>
-              <p class="text-2xl font-semibold text-slate-800 tracking-tight">5 <span class="text-sm font-normal text-slate-400">项</span></p>
+              <p class="text-2xl font-semibold text-slate-800 tracking-tight">
+                <span id="pending-material-count">0</span>
+                <span class="text-sm font-normal text-slate-400">项</span>
+              </p>
             </div>
           </div>
 
@@ -334,5 +337,19 @@
       });
     })();
   </script>
+  <script>
+  // 读取科研资料数据
+  const materials = JSON.parse(
+    localStorage.getItem("lab_materials") || "[]"
+  );
+
+  // 统计待审核资料数量
+  const pendingCount = materials.filter(
+    item => item.status === "待审核"
+  ).length;
+
+  // 更新工作台待审批数量
+  document.getElementById("pending-material-count").textContent = pendingCount;
+</script>
 </body>
 </html>
